@@ -2,7 +2,7 @@ import Card from 'react-bootstrap/Card';
 import { useEffect, useState } from 'react';
 import RelatedProducts from './RelatedProducts';
 import { useParams } from 'react-router-dom';
-import api from "../../api";
+import api, { BASE_URL } from "../../api";
 
 
 function ProductPage() {
@@ -25,7 +25,9 @@ function ProductPage() {
     return (
         <>
             <Card border="primary" style={{ width: '18rem' }}>
-                <Card.Header>Header</Card.Header>
+                <Card.Header>
+                    <img src={`${BASE_URL}${product.image}`} alt="" />
+                </Card.Header>
                 <Card.Body>
                     <Card.Title>{product.name}</Card.Title>
                     <Card.Text>
