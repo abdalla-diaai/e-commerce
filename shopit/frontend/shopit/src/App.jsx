@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route index element={<HomePage />} />
           <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
