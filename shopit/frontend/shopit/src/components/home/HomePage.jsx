@@ -30,8 +30,10 @@ function HomePage() {
         <>
             <Header />
             {/* if loading is true, display loading container otherwise display card container */}
-            { loading ? <LoadingContainer /> : <CardContainer products={products}/> }
-            {error && <Error error={error}/>};
+            { loading && <LoadingContainer /> }
+            {error && <Error error={error}/>}
+            { loading || error != '' || <CardContainer products={products}/>}
+
             
         </>
     );
