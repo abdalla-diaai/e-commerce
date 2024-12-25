@@ -15,7 +15,7 @@ function ProductPage() {
     const newItem = { cart_code: cartCode, product_id: product.id };
 
     function addItem() {
-        api.post('add_item/', newItem)
+        api.post('add_item', newItem)
             .then(response => {
                 console.log(response.data);
             })
