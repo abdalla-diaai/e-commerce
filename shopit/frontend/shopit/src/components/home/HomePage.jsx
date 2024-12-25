@@ -5,11 +5,19 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 import LoadingContainer from "../ui/LoadingContainer";
 import Error from "../ui/Error";
+import { cartCode } from "../../CartCode";
 
 function HomePage() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("")
+
+    useEffect(() => {
+        if (localStorage.getItem('cart_code') === null) {
+            localStorage.setItem('cart_code', cartCode);
+        };
+         
+    }, []);
 
     useEffect(() => {
         setLoading(true);

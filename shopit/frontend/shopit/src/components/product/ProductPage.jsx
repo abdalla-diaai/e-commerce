@@ -9,17 +9,30 @@ import api, { BASE_URL } from "../../api";
 function ProductPage() {
     const [product, setProduct] = useState([]);
     const [related, setRelated] = useState([]);
+    const { slug } = useParams();
+    const cartCode = localStorage.getItem("cart_code");
 
-    const { slug } = useParams()
+    const newItem = { cart_code: cartCode, product_id: product.id };
+
+    function addItem() {
+        api.post('add_item/', newItem)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(err => {
+                console.log('Error', err.message);
+            });
+    };
+
     useEffect(() => {
         api.get(`product_details/${slug}`)
-            .then((response) => {
+            .then(response => {
                 console.log(response.data);
                 setProduct(response.data);
                 setRelated(response.data.similar_products)
             })
-            .catch((err) => {
-                console.log('Error', err);
+            .catch(err => {
+                console.log('Error', err.message);
             });
     }, [slug]);
 
@@ -38,6 +51,7 @@ function ProductPage() {
                 <Link to={`/products/${product.slug}`}>
                     <Button variant="primary">Go somewhere</Button>
                 </ Link>
+                <Button className='btn btn-info' type='button' onClick={addItem}>Add to cart</Button>
             </Card>
             <section>
                 <RelatedProducts related={related} />

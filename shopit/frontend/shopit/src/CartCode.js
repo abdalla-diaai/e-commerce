@@ -8,4 +8,4 @@ function generateCartCode(length = 10) {
     return result;
 };
 
-export const cardCode = generateCartCode(); 
+export const cartCode = generateCartCode(); 
