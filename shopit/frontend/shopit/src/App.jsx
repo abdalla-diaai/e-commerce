@@ -5,6 +5,7 @@ import HomePage from './components/home/HomePage';
 import PageNotFound from './components/ui/PageNotFound';
 import ProductPage from './components/product/ProductPage';
 import api from './api';
+import CartPage from './components/cart/CartPage';
 
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
         <Route path='/' element={<MainLayout  numCartItems={numCartItems}/>}>
           <Route index element={<HomePage />} />
           <Route path='products/:slug' element={<ProductPage setNumCartItems={setNumCartItems}/>} />
+          <Route path='cart/' element={<CartPage />} />
+
           <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>

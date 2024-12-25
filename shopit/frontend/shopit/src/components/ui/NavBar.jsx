@@ -30,8 +30,9 @@ function NavBar({numCartItems}) {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="#action1">Home</Nav.Link>
                   <Nav.Link href="#action2">Link</Nav.Link>
-                  <Nav.Link href="#action2"><i class="bi bi-cart">{numCartItems}</i></Nav.Link>
-
+                  <Nav.Link href="/cart"><i className="bi bi-cart"></i>
+                  <span>{numCartItems}</span>
+                  </Nav.Link>
                   <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
