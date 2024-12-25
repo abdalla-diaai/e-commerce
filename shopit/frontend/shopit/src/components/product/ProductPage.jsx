@@ -6,7 +6,7 @@ import { useParams, Link } from 'react-router-dom';
 import api, { BASE_URL } from "../../api";
 
 
-function ProductPage() {
+function ProductPage({setNumCartItems}) {
     const [product, setProduct] = useState([]);
     const [related, setRelated] = useState([]);
     const [inCart, setInCart] = useState(false);
@@ -34,6 +34,7 @@ function ProductPage() {
             .then(response => {
                 console.log(response.data);
                 setInCart(true);
+                setNumCartItems(current => current += 1);
             })
             .catch(err => {
                 console.log('Error', err.message);

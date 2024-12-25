@@ -4,6 +4,8 @@ from .models import *
 from .serializers import *
 
 # Create your views here.
+def index(request):
+    return render(request, "shopping/index.html")
 
 @decorators.api_view(['GET'])
 def products(request):
@@ -42,4 +44,15 @@ def product_in_cart(request):
     product = Product.objects.get(id=product_id)
     product_exists_in_cart = CartItem.objects.filter(cart=cart, product=product).exists()
     return response.Response({"product_in_cart": product_exists_in_cart})
+
+@decorators.api_view(['GET'])
+def get_cart_stats(request):
+    cart_code = request.query_params.get("cart_code")
+    cart = Cart.objects.get(cart_code=cart_code, paid=False)
+    serializer = SimpleCartSerializer(cart)
+    return response.Response(serializer.data)
+
+
+
+
 
