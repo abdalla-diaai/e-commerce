@@ -18,6 +18,7 @@ def product_details(request, slug):
     serializer = ProductDetailsSerializer(product)
     return response.Response(serializer.data)
 
+@decorators.api_view(['POST'])
 def add_item(request):
     try:
         cart_code = request.data.GET("cart_code")
@@ -30,7 +31,7 @@ def add_item(request):
         serializer = CartItemSerializer(cart_item)
         return response.Response({"data": serializer.data, "message": "Cart item created successfully."}, status=201)
     except Exception as e:
-        return response.Response({"error": str(e)})
+        return response.Response({"error": str(e)}, status=400)
  
 
 
