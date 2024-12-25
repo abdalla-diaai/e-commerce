@@ -9,15 +9,31 @@ import api, { BASE_URL } from "../../api";
 function ProductPage() {
     const [product, setProduct] = useState([]);
     const [related, setRelated] = useState([]);
+    const [inCart, setInCart] = useState(false);
     const { slug } = useParams();
     const cartCode = localStorage.getItem("cart_code");
-
     const newItem = { cart_code: cartCode, product_id: product.id };
 
-    function addItem() {
-        api.post('add_item', newItem)
+    useEffect(() => {
+        if (product.id) {
+            api.get(`product_in_cart?cart_code=${cartCode}&product_id=${product.id}`)
             .then(response => {
                 console.log(response.data);
+                setInCart(response.data.product_in_cart);
+            })
+            .catch(err => {
+                console.log('Error', err.message);
+            });
+        }
+       
+    }, [cartCode, product.id]);
+
+
+    function addItem() {
+        api.post('add_item/', newItem)
+            .then(response => {
+                console.log(response.data);
+                setInCart(true);
             })
             .catch(err => {
                 console.log('Error', err.message);
@@ -51,7 +67,9 @@ function ProductPage() {
                 <Link to={`/products/${product.slug}`}>
                     <Button variant="primary">Go somewhere</Button>
                 </ Link>
-                <Button className='btn btn-info' type='button' onClick={addItem}>Add to cart</Button>
+                <Button className='btn btn-info' type='button' onClick={addItem} disabled={inCart}>
+                    {inCart ? "Product added to cart" : "Add to cart"}
+                </Button>
             </Card>
             <section>
                 <RelatedProducts related={related} />
