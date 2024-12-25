@@ -18,3 +18,15 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
         serializer = ProductSerializer(products, many=True)
         return serializer.data
     
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        field = ["id", "cart_code", "created_at", "updated_at"]
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    cart = CartSerializer(read_only=True)
+    class Meta:
+        model = CartItem
+        fields = ["id", "quantity", "product", "cart"]

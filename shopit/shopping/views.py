@@ -17,3 +17,20 @@ def product_details(request, slug):
     product = Product.objects.get(slug=slug)
     serializer = ProductDetailsSerializer(product)
     return response.Response(serializer.data)
+
+def add_item(request):
+    try:
+        cart_code = request.data.GET("cart_code")
+        product_id = request.data.GET("product_id")
+        cart, created = Cart.objects.get_or_create(cart_code=cart_code)
+        product = Product.objects.get(id=product_id)
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+        cart_item.quantity = 1
+        cart_item.save()
+        serializer = CartItemSerializer(cart_item)
+        return response.Response({"data": serializer.data, "message": "Cart item created successfully."}, status=201)
+    except Exception as e:
+        return response.Response({"error": str(e)})
+ 
+
+

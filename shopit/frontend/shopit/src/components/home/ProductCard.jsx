@@ -13,7 +13,7 @@ function ProductCard({ product }) {
         <Card.Text>
           {product.description}
         </Card.Text>
-        <Link to={`products/${product.slug}`}>
+        <Link to={`/products/${product.slug}`}>
           <Button variant="primary">Go somewhere</Button>
         </ Link>
 

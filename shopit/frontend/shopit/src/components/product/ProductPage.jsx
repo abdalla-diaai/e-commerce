@@ -1,7 +1,8 @@
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
 import RelatedProducts from './RelatedProducts';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api, { BASE_URL } from "../../api";
 
 
@@ -20,7 +21,7 @@ function ProductPage() {
             .catch((err) => {
                 console.log('Error', err);
             });
-    }, []);
+    }, [slug]);
 
     return (
         <>
@@ -34,6 +35,9 @@ function ProductPage() {
                         {product.description}
                     </Card.Text>
                 </Card.Body>
+                <Link to={`/products/${product.slug}`}>
+                    <Button variant="primary">Go somewhere</Button>
+                </ Link>
             </Card>
             <section>
                 <RelatedProducts related={related} />
