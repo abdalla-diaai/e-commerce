@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
-function CartSummary() {
+function CartSummary({subTotal}) {
+    const tax = subTotal * 0.01;
+    const total = subTotal + tax;
     return (
         <div className="col-md-4 align-self-start">
             <div className="card">
@@ -9,15 +11,15 @@ function CartSummary() {
                     <hr />
                     <div className="d-flex justify-content-between">
                         <span>Subtotal: </span>
-                        <span>£40</span>
+                        <span>£{subTotal}</span>
                     </div>
                     <div className="d-flex justify-content-between">
                         <span>Tax: </span>
-                        <span>£4</span>
+                        <span>£{tax}</span>
                     </div>
                     <div className="d-flex justify-content-between mb-3">
                         <span>Total: </span>
-                        <strong>£4</strong>
+                        <strong>£{total}</strong>
                     </div>
                     <Link to='/checkout'>
                     <button className="btn btn-primary w-100"

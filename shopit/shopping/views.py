@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, decorators, response
+from rest_framework import decorators, response
 from .models import *
 from .serializers import *
 
@@ -52,7 +52,11 @@ def get_cart_stats(request):
     serializer = SimpleCartSerializer(cart)
     return response.Response(serializer.data)
 
-
-
+@decorators.api_view(['GET'])
+def get_cart(request):
+    cart_code = request.query_params.get("cart_code")
+    cart = Cart.objects.get(cart_code=cart_code, paid=False)
+    serializer = CartSerializer(cart)
+    return response.Response(serializer.data)
 
 
