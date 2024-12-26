@@ -11,8 +11,8 @@ import CartPage from './components/cart/CartPage';
 function App() {
 
   const [numCartItems, setNumCartItems] = useState(0);
-  const cart_code = localStorage.getItem("cart_code");
   useEffect(() => {
+    const cart_code = localStorage.getItem("cart_code");
     if (cart_code) {
       api.get(`get_cart_stats?cart_code=${cart_code}`)
       .then(response => {
@@ -23,9 +23,7 @@ function App() {
         console.log(err.message);
       });
     };
-
 }, []);
-  api.get()
 
   return (
     <Router>
@@ -34,7 +32,6 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path='products/:slug' element={<ProductPage setNumCartItems={setNumCartItems}/>} />
           <Route path='cart/' element={<CartPage />} />
-
           <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>

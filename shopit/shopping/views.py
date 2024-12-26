@@ -59,4 +59,16 @@ def get_cart(request):
     serializer = CartSerializer(cart)
     return response.Response(serializer.data)
 
-
+@decorators.api_view(['PATCH'])
+def update_quantity(request):
+    try:
+        cart_item_id = request.data.get("item_id")
+        quantity = request.data.get("quantity")
+        quantity = int(quantity)
+        cart_item = CartItem.objects.get(id=cart_item_id)
+        cart_item.quantity = quantity
+        cart_item.save
+        serializer = CartItemSerializer(cart_item)
+        return response.Response({ "data": serializer.data, "message": "Cart item updated successfully!"})
+    except Exception as e:
+        return response.Response({'error': str(e)}, status=400)
