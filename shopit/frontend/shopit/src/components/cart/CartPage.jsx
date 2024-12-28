@@ -40,7 +40,7 @@ function CartPage() {
             <div className="row">
                 <div className="col-md-8">
                     {items.map((item) => (
-                        <CartItem key={item.id} item={item} items={items} setSubTotal={setSubTotal} />
+                        <CartItem key={item.id} item={item} items={items} setSubTotal={setSubTotal} setItems={setItems}/>
                     ))}
                 </div>
                 <div>

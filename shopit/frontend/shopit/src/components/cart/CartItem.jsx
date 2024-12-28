@@ -1,18 +1,34 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import api, { BASE_URL } from "../../api";
 import { toast } from 'react-toastify'; 
 
 
-function CartItem({item, items, setSubTotal}) {
+function CartItem({item, items, setSubTotal, setItems}) {
     const [quantity, setQuantity] = useState(item.quantity);
     const itemData = {quantity: quantity, item_id: item.id};
+    const itemId = {item_id: item.id};
+    let navigate = useNavigate();
 
-    function updateCartItem() {
+    function updateCartItem({setItems}) {
         api.patch('update_quantity/', itemData)
         .then(response => {
             console.log(response.data);
             setSubTotal(items.map((cartItem) => cartItem.id === item.id ? response.data.data : cartItem).reduce((acc, curr) => acc + curr.total, 0));
             toast.success('Cart item updated successfully!');
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+    };
+
+    function deleteCartItem() {
+        api.post('delete_cart_item/', itemId)
+        .then(response => {
+            console.log(response.data);
+            toast.success('Cart item deleted successfully!');
+            setItems(items.filter(cartItem => cartItem.id != itemId.item_id));
+
         })
         .catch(err => {
             console.log(err.message);
@@ -30,7 +46,7 @@ function CartItem({item, items, setSubTotal}) {
         <div className="d-flex align-items-center">
             <input type="number" min={1} className="form-control me-3" value={quantity} onChange={(e) => setQuantity(e.target.value)} style={{width: '70px'}}/>
             <button className="btn btn-info btn-sm" onClick={updateCartItem}>Update</button>
-            <button className="btn btn-danger btn-sm">Remove</button>
+            <button className="btn btn-danger btn-sm" onClick={deleteCartItem}>Remove</button>
         </div>
     </div>
     );

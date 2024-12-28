@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import decorators, response
+from rest_framework import decorators, response, status
 from .models import *
 from .serializers import *
 
@@ -72,3 +72,14 @@ def update_quantity(request):
         return response.Response({ "data": serializer.data, "message": "Cart item updated successfully!"})
     except Exception as e:
         return response.Response({'error': str(e)}, status=400)
+
+@decorators.api_view(['POST'])
+def delete_cart_item(request):
+    cart_item_id = request.data.get("item_id")
+    cart_item = CartItem.objects.get(id=cart_item_id)
+    cart_item.delete()
+    return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
