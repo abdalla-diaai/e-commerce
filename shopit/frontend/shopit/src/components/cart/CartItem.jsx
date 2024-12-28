@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import api, { BASE_URL } from "../../api";
+import { toast } from 'react-toastify'; 
+
 
 function CartItem({item, items, setSubTotal}) {
     const [quantity, setQuantity] = useState(item.quantity);
@@ -10,6 +12,7 @@ function CartItem({item, items, setSubTotal}) {
         .then(response => {
             console.log(response.data);
             setSubTotal(items.map((cartItem) => cartItem.id === item.id ? response.data.data : cartItem).reduce((acc, curr) => acc + curr.total, 0));
+            toast.success('Cart item updated successfully!');
         })
         .catch(err => {
             console.log(err.message);

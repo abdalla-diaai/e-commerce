@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import RelatedProducts from './RelatedProducts';
 import { useParams, Link } from 'react-router-dom';
 import api, { BASE_URL } from "../../api";
+import { toast } from 'react-toastify'; 
 
 
 function ProductPage({setNumCartItems}) {
@@ -20,6 +21,7 @@ function ProductPage({setNumCartItems}) {
             .then(response => {
                 console.log(response.data);
                 setInCart(response.data.product_in_cart);
+                
             })
             .catch(err => {
                 console.log('Error', err.message);
@@ -35,6 +37,7 @@ function ProductPage({setNumCartItems}) {
                 console.log(response.data);
                 setInCart(true);
                 setNumCartItems(current => current += 1);
+                toast.success('Product added to cart!');
             })
             .catch(err => {
                 console.log('Error', err.message);
