@@ -10,7 +10,7 @@ function CartItem({item, items, setSubTotal, setItems}) {
     const itemId = {item_id: item.id};
     let navigate = useNavigate();
 
-    function updateCartItem({setItems}) {
+    function updateCartItem() {
         api.patch('update_quantity/', itemData)
         .then(response => {
             console.log(response.data);
@@ -22,13 +22,16 @@ function CartItem({item, items, setSubTotal, setItems}) {
         });
     };
 
+    // for delete functions use filter
     function deleteCartItem() {
         api.post('delete_cart_item/', itemId)
         .then(response => {
             console.log(response.data);
             toast.success('Cart item deleted successfully!');
             setItems(items.filter(cartItem => cartItem.id != itemId.item_id));
+            setSubTotal(items.filter((cartItem) => cartItem.id != item.id).reduce((acc, curr) => acc + curr.total, 0));
 
+            setQuantity(items.filter((cartItem) => cartItem.id != item.id).reduce((acc, curr) => acc + curr.total, 0));
         })
         .catch(err => {
             console.log(err.message);
