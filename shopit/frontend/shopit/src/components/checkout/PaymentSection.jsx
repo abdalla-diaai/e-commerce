@@ -4,10 +4,10 @@ function PaymentSection() {
             <div className="card">
                 
                 <div className="card-body">
-                    paypal
+                    <button className="btn btn-primary">PayPal</button>
                 </div>
                 <div className="card-body">
-                    credit card
+                    <button className="btn btn-primary">Credit Card</button>
                 </div>
             </div>
         </div>
