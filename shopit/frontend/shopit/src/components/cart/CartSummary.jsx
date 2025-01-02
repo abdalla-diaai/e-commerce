@@ -15,11 +15,11 @@ function CartSummary({subTotal}) {
                     </div>
                     <div className="d-flex justify-content-between">
                         <span>Tax: </span>
-                        <span>£{tax}</span>
+                        <span>£{tax.toFixed(2)}</span>
                     </div>
                     <div className="d-flex justify-content-between mb-3">
                         <span>Total: </span>
-                        <strong>£{total}</strong>
+                        <strong>£{total.toFixed(2)}</strong>
                     </div>
                     <Link to='/checkout'>
                     <button className="btn btn-primary w-100"
