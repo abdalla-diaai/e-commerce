@@ -5,7 +5,7 @@ import api from "../../api";
 import Alert from 'react-bootstrap/Alert';
 
 
-function CartPage() {
+function CartPage({setNumCartItems}) {
 
     const [items, setItems] = useState([]);
     const [subTotal, setSubTotal] = useState(0.0);
@@ -40,7 +40,7 @@ function CartPage() {
             <div className="row">
                 <div className="col-md-8">
                     {items.map((item) => (
-                        <CartItem key={item.id} item={item} items={items} setSubTotal={setSubTotal} setItems={setItems}/>
+                        <CartItem key={item.id} item={item} items={items} setSubTotal={setSubTotal} setItems={setItems} setNumCartItems={setNumCartItems}/>
                     ))}
                 </div>
                 <div>
