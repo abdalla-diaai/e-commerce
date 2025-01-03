@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 
-function useCartData(cart_code) {
+function userCartData(cart_code) {
     const [items, setItems] = useState([]);
     const [subTotal, setSubTotal] = useState(0.0);
     const [loading, setLoading] = useState("visually-hidden");
 
     useEffect(() => {
         setLoading("");
-        if (cart_code) {
+        if (cart_code && items.length > 0) {
             api.get(`get_cart?cart_code=${cart_code}`)
                 .then(response => {
                     console.log(response.data);
@@ -25,4 +25,4 @@ function useCartData(cart_code) {
     return { items, subTotal, loading, setItems, setSubTotal, setLoading };
 };
 
-export default useCartData;
+export default userCartData;

@@ -91,3 +91,9 @@ def get_username(request):
         return response.Response({"error": "User is not authenticated"}, status=401)
 
 
+@decorators.api_view(['GET'])
+@decorators.permission_classes([IsAuthenticated])
+def user_info(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return response.Response(serializer.data)
