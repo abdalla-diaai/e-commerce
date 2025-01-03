@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
 import api from '../api'
 
-export const AuthContext = createContext(false);
+export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,10 +18,7 @@ export function AuthProvider({ children }) {
             if (expiry_time >= current_time) {
                 setIsAuthenticated(true);
             };
-            console.log(isAuthenticated);
-
         };
-
     };
 
     function getUsername() {
@@ -34,7 +31,6 @@ export function AuthProvider({ children }) {
             }
         })
             .then((response) => {
-                console.log(response.data);
                 setUsername(response.data.username);
             })
             .catch((error) => {
@@ -56,4 +52,3 @@ export function AuthProvider({ children }) {
         <AuthContext.Provider value={authValue}> {children} </AuthContext.Provider>
     );
 };
-
