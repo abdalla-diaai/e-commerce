@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import *
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomerUser
 
 # Register your models here.
-class CustomerUserAdmin(admin.ModelAdmin):
+class CustomerUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'first_name', 'last_name' 'email', 'city', 'state', 'address', 'phone', 'password1', 'password2'),
+            'fields': ('username', 'first_name', 'last_name', 'email', 'city', 'state', 'address', 'phone', 'password1', 'password2'),
         }),
     )
 
