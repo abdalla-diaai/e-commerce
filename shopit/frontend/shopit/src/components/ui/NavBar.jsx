@@ -40,7 +40,7 @@ function NavBar({ numCartItems }) {
                   <Nav.Link href="/">Home</Nav.Link>
                   {isAuthenticated ? (
                     <>
-                      <Nav.Link href="#">{`Hi ${username}`}</Nav.Link>
+                      <Nav.Link href="profile/">{`Hi ${username}`}</Nav.Link>
                       <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
                     </>
                   ) : (
