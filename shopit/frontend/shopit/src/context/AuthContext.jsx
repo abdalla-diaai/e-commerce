@@ -14,9 +14,9 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("access");
         if (token) {
             const decoded = jwtDecode(token);
-            const expiry_time = decoded.exp;
-            const current_time = Date.now() / 1000;
-            if (expiry_time >= current_time) {
+            const expiryTime = decoded.exp;
+            const currentTime = Date.now() / 1000;
+            if (expiryTime > currentTime) {
                 setIsAuthenticated(true);
             };
         };
@@ -26,11 +26,7 @@ export const AuthProvider = ({ children }) => {
         if (!isAuthenticated) {
             return;
         };
-        api.get('/get_username/', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access")}`
-            }
-        })
+        api.get('/get_username/')
             .then((response) => {
                 setUsername(response.data.username);
             })

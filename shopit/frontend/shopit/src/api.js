@@ -12,9 +12,9 @@ api.interceptors.request.use(
         const token = localStorage.getItem('access');
         if (token) {
             const decoded = jwtDecode(token);
-            const expiry_time = decoded.exp;
-            const current_time = Date.now() / 1000;
-            if (expiry_time < current_time) {
+            const expiryTime = decoded.exp;
+            const currentTime = Date.now() / 1000;
+            if (expiryTime > currentTime) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
         }

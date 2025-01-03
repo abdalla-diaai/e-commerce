@@ -10,11 +10,7 @@ function UserProfile() {
 
     useEffect(() => {
         setLoading(true);
-        api.get('user_info/', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access")}`
-            }
-        })
+        api.get('user_info/')
         .then(response => {
             console.log(response.data);
             setUserInfo(response.data);
@@ -32,7 +28,7 @@ function UserProfile() {
 
     return (
         <div className="container my-5">
-            <UserInfo />
+            <UserInfo userInfo={userInfo} />
             <OrderHistoryContainer />
         </div>
     );

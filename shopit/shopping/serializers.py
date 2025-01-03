@@ -59,7 +59,9 @@ class SimpleCartSerializer(serializers.ModelSerializer):
         return items_num
 
 class UserSerializer(serializers.ModelSerializer):
+    date_joined = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=None)
+
     class Meta:
         # currently used model
         model = get_user_model()
-        fields = ["id", "username", "email", "first_name", "last_name", "city", "state", "address", "phone"]
+        fields = ["id", "username", "email", "first_name", "last_name", "city", "state", "address", "phone", "date_joined"]
