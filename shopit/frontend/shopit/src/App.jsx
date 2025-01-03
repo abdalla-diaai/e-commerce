@@ -9,6 +9,7 @@ import CartPage from './components/cart/CartPage';
 import CheckoutPage from './components/checkout/CheckoutPage';
 import LoginPage from './components/user/LoginPage';
 import ProtectedRoute from './components/ui/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
 
@@ -17,29 +18,31 @@ function App() {
     const cart_code = localStorage.getItem("cart_code");
     if (cart_code) {
       api.get(`get_cart_stats?cart_code=${cart_code}`)
-      .then(response => {
-        console.log(response.data);
-        setNumCartItems(response.data.num_of_items);
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+        .then(response => {
+          console.log(response.data);
+          setNumCartItems(response.data.num_of_items);
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     };
-}, []);
+  }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<MainLayout  numCartItems={numCartItems}/>}>
-          <Route index element={<HomePage />} />
-          <Route path='products/:slug' element={<ProductPage setNumCartItems={setNumCartItems}/>} />
-          <Route path='cart/' element={<CartPage setNumCartItems={setNumCartItems}/>} />
-          <Route path='checkout/' element={<ProtectedRoute><CheckoutPage /></ ProtectedRoute>} />
-          <Route path='login/' element={<LoginPage />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Route>
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path='/' element={<MainLayout numCartItems={numCartItems} />}>
+            <Route index element={<HomePage />} />
+            <Route path='products/:slug' element={<ProductPage setNumCartItems={setNumCartItems} />} />
+            <Route path='cart/' element={<CartPage setNumCartItems={setNumCartItems} />} />
+            <Route path='checkout/' element={<ProtectedRoute><CheckoutPage /></ ProtectedRoute>} />
+            <Route path='login/' element={<LoginPage />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

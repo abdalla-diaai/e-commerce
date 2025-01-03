@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../../api";
+import Error from "../ui/Error";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function LoginPage() {
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const {setIsAuthenticated} = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,19 +20,26 @@ function LoginPage() {
     api.post('token/', { username, password })
       .then(response => {
         console.log(response.data);
+        setUsername("");
+        setPassword("");
+        localStorage.setItem("access", response.data.access);
+        localStorage.setItem("refresh", response.data.refresh);
         setLoading(false);
+        setIsAuthenticated(true);
+        const redirectTo = location.state?.from || '/';
+        navigate(redirectTo);
       }
     )
     .catch(err => {
       console.log(err.message);
       setLoading(false);
-      setError(error.message);
-
+      setError("Invalid username or password!");
     });
   }
 
   return (
     <div className="container mt-3">
+      {error && <Error error={error} />}
       <form onSubmit={handleSubmit}>
         <h3>Sign In</h3>
         <div className="mb-3">
@@ -33,7 +47,7 @@ function LoginPage() {
           <input
             type="username"
             className="form-control"
-            placeholder="Enter email"
+            placeholder="Enter username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -61,7 +75,7 @@ function LoginPage() {
           </div>
         </div>
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             Submit
           </button>
         </div>
