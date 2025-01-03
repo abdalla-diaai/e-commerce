@@ -1,11 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
+import api from '../api'
 
+export const AuthContext = createContext(false);
 
-const AuthContext = createContext(false);
-
-function AuthProvider({ children }) {
+export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [username, setUsername] = useState("");
+
+
     const handleAuth = () => {
         const token = localStorage.getItem("access");
         if (token) {
@@ -14,19 +17,43 @@ function AuthProvider({ children }) {
             const current_time = Date.now() / 1000;
             if (expiry_time >= current_time) {
                 setIsAuthenticated(true);
-            }
-        }
+            };
+            console.log(isAuthenticated);
 
-    }
+        };
+
+    };
+
+    function getUsername() {
+        if (!isAuthenticated) {
+            return;
+        };
+        api.get('/get_username/', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access")}`
+            }
+        })
+            .then((response) => {
+                console.log(response.data);
+                setUsername(response.data.username);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch username:", error);
+            });
+    };
+
     useEffect(() => {
         handleAuth();
     }, []);
 
-    const authValue = {isAuthenticated, setIsAuthenticated}
+    useEffect(() => {
+        getUsername();
+    }, [isAuthenticated]);
 
-        return (
-            <AuthContext.Provider value={authValue}> {children} </AuthContext.Provider>
-        );
-    }
+    const authValue = { isAuthenticated, username, setIsAuthenticated, getUsername }
 
-    export { AuthContext, AuthProvider };
+    return (
+        <AuthContext.Provider value={authValue}> {children} </AuthContext.Provider>
+    );
+};
+

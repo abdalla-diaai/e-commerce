@@ -8,24 +8,25 @@ function LoginPage() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const {setIsAuthenticated} = useContext(AuthContext);
+  const {setIsAuthenticated, getUsername} = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
 
   function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
     api.post('token/', { username, password })
       .then(response => {
-        console.log(response.data);
         setUsername("");
         setPassword("");
         localStorage.setItem("access", response.data.access);
         localStorage.setItem("refresh", response.data.refresh);
         setLoading(false);
         setIsAuthenticated(true);
+        getUsername();
         const redirectTo = location.state?.from || '/';
         navigate(redirectTo);
       }

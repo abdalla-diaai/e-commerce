@@ -10,14 +10,20 @@ import React, { useContext } from 'react';
 
 
 function NavBar({ numCartItems }) {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, username } = useContext(AuthContext);
+
+  function logout() {
+    localStorage.removeItem('access');
+    localStorage.removeItem('referesh');
+    setIsAuthenticated(false);
+  }
 
   return (
     <>
       {['md'].map((expand) => (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
-            <Navbar.Brand href='/'>Navbar Offcanvas</Navbar.Brand>
+            <Navbar.Brand href='/'>shopit</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -26,8 +32,7 @@ function NavBar({ numCartItems }) {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
-                  <span>{numCartItems}</span>
+                shopit
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -35,8 +40,8 @@ function NavBar({ numCartItems }) {
                   <Nav.Link href="/">Home</Nav.Link>
                   {isAuthenticated ? (
                     <>
-                      <Nav.Link href="#">Profile</Nav.Link>
-                      <Nav.Link href="#">Logout</Nav.Link>
+                      <Nav.Link href="#">{`Hi ${username}`}</Nav.Link>
+                      <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
                     </>
                   ) : (
                     <>

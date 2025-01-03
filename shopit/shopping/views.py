@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework import decorators, response, status
-from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
@@ -83,8 +82,12 @@ def delete_cart_item(request):
     return response.Response(status=status.HTTP_204_NO_CONTENT)
 
 @decorators.api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@decorators.permission_classes([IsAuthenticated])
 def get_username(request):
-    return response.Response({"username": request.user.username})
+    print(request.user.username)
+    if request.user.is_authenticated:
+        return response.Response({"username": request.user.username})
+    else:
+        return response.Response({"error": "User is not authenticated"}, status=401)
 
 

@@ -19,7 +19,6 @@ function App() {
     if (cart_code) {
       api.get(`get_cart_stats?cart_code=${cart_code}`)
         .then(response => {
-          console.log(response.data);
           setNumCartItems(response.data.num_of_items);
         })
         .catch(err => {

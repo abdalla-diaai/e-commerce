@@ -23,7 +23,6 @@ function HomePage() {
         setLoading(true);
         api.get('products')
             .then((response) => {
-                console.log(response.data);
                 setProducts(response.data);
                 setLoading(false);
                 setError('')
